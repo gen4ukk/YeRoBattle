@@ -2,7 +2,7 @@
 using YeRoBattle.Engine;
 using YeRoBattle.Logger;
 
-
+// ghth
 ILogger logger = new ConsoleLogger();
 
 logger.WriteLine(Environment.NewLine);
