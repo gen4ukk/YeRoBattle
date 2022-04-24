@@ -14,7 +14,7 @@ Character character1 = new Character
     CurrentHealth = 100,
     Armor = 4,
     Damage = 10,
-    Heal = 10,
+    HealPower = 10,
 };
 
 Character character2 = new Character
@@ -24,7 +24,7 @@ Character character2 = new Character
     CurrentHealth = 100,
     Armor = 2,
     Damage = 12,
-    Heal = 10,
+    HealPower = 10,
 };
 
 var battleCalculator = new BattleCalculator(logger);

@@ -34,7 +34,7 @@ namespace YeRoBattle.Engine
         }
         public void Healing(Character character)
         {
-            var heal = character.Heal;
+            var heal = character.HealPower;
 
 
             if (heal > 0)
@@ -44,7 +44,7 @@ namespace YeRoBattle.Engine
 
             if (character.CurrentHealth == character.Health)
             {
-                character.Heal = 0;
+                character.HealPower = 0;
             }
             else
             {
