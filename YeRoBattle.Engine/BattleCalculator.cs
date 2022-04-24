@@ -32,23 +32,42 @@ namespace YeRoBattle.Engine
                 defender.IsDead = true;
             }
         }
-        public void Healing(Character character)
+        public void Healing(Character character, Character target)
         {
             var heal = character.HealPower;
-
-
-            if (heal > 0)
+            
+            if (heal > 0) // heal character 
             {
+                _logger.WriteLine($@"character {character.Name} has healed {character.Name} by {heal}");
                 character.Health = character.Health + heal;
             }
-
             if (character.CurrentHealth == character.Health)
             {
+                _logger.WriteLine($@"character {character.Name} has healed {character.Name} by {heal}");
                 character.HealPower = 0;
             }
             else
             {
+                _logger.WriteLine($@"character {character.Name} has healed {character.Name} by {heal}");
                 character.Health = character.Health + heal;
+            }
+            
+
+            if (heal > 0) //heal target
+            {
+                _logger.WriteLine($@"character {character.Name} has healed {target.Name} by {heal}");
+                target.CurrentHealth = target.CurrentHealth + heal;
+            }
+            if (target.CurrentHealth == target.Health)
+            {
+                _logger.WriteLine($@"character {character.Name} has healed {target.Name} by {heal}");
+                character.HealPower = 0; 
+                target.HealPower = 0;
+            }
+            else
+            {
+                _logger.WriteLine($@"character {character.Name} has healed {target.Name} by {heal}");
+                target.Health = target.Health + heal;
             }
 
 
