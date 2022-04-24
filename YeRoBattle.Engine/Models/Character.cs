@@ -14,5 +14,6 @@ namespace YeRoBattle.Engine.Models
         public int Armor { get; set; }
         public int Damage { get; set; }
         public bool IsDead { get; set; }
+        public int Heal { get; set; }
     }
 }

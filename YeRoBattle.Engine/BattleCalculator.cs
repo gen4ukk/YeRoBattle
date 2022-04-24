@@ -32,5 +32,27 @@ namespace YeRoBattle.Engine
                 defender.IsDead = true;
             }
         }
+        public void Healing(Character character)
+        {
+            var heal = character.Heal;
+
+
+            if (heal > 0)
+            {
+                character.Health = character.Health + heal;
+            }
+
+            if (character.CurrentHealth == character.Health)
+            {
+                character.Heal = 0;
+            }
+            else
+            {
+                character.Health = character.Health + heal;
+            }
+
+
+
+        }
     }
 }
