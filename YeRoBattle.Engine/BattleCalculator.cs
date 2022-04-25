@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using YeRoBattle.Engine.Models;
 using YeRoBattle.Logger;
+using System.Runtime;
 
 namespace YeRoBattle.Engine
 {
@@ -17,7 +18,7 @@ namespace YeRoBattle.Engine
 
         private ILogger _logger;
 
-        public void Hit(Character attacker, Character defender) 
+        public void Hit(Character attacker, Character defender)
         {
             var damage = attacker.Damage - defender.Armor;
 
@@ -35,7 +36,7 @@ namespace YeRoBattle.Engine
         public void Healing(Character character, Character target)
         {
             var heal = character.HealPower;
-            
+
             if (heal > 0) // heal character 
             {
                 _logger.WriteLine($@"character {character.Name} has healed {character.Name} by {heal}");
@@ -51,7 +52,7 @@ namespace YeRoBattle.Engine
                 _logger.WriteLine($@"character {character.Name} has healed {character.Name} by {heal}");
                 character.Health = character.Health + heal;
             }
-            
+
 
             if (heal > 0) //heal target
             {
@@ -61,7 +62,7 @@ namespace YeRoBattle.Engine
             if (target.CurrentHealth == target.Health)
             {
                 _logger.WriteLine($@"character {character.Name} has healed {target.Name} by {heal}");
-                character.HealPower = 0; 
+                character.HealPower = 0;
                 target.HealPower = 0;
             }
             else
@@ -69,6 +70,21 @@ namespace YeRoBattle.Engine
                 _logger.WriteLine($@"character {character.Name} has healed {target.Name} by {heal}");
                 target.Health = target.Health + heal;
             }
+
+
+
+        }
+
+        public void CriticalChance(Character attaker, Character defender)
+        { 
+           
+            var crit = new Random();
+
+            for (int i = 0; i < 100; i++)
+            {
+                var p = crit.Next(100);
+                if (p >= 1 - attaker.CriticalChance) ; //хуйзнает блять как создать этот рандом #ЖЕНЯПАМАГИ
+}
 
 
 
