@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using YeRoBattle.Engine.Models;
 using YeRoBattle.BattleField.Models;
+using System.Text.Json;
+using System.Reflection;
 
 namespace YeRoBattle.BattleField.Engine
 {
@@ -12,11 +14,15 @@ namespace YeRoBattle.BattleField.Engine
     {
         private UserControl _userControl;
         private GameCondition _gameCondition;
+        private GameConfig _gameConfig;
 
         public bool Create(UserControl userControl, GameDetails gameDetails) 
         {
             _userControl = userControl;
             _gameCondition = new GameCondition(gameDetails);
+
+            string path = Path.Combine(Directory.GetCurrentDirectory(), @"appsettings.json");
+            _gameConfig = JsonSerializer.Deserialize<GameConfig>(File.ReadAllText(path))!;
 
             try
             {
@@ -64,7 +70,9 @@ namespace YeRoBattle.BattleField.Engine
                         var teamPosition = gameDetails.Map.TeamsPositons.Where(x => x.TeamId == team.Id).First();
                         gameCharacter.Position = teamPosition.Positions[i];
                         var controls = _userControl.Controls.Find(@$"{gameCharacter.Position.X},{gameCharacter.Position.Y}", true);
-                        SetImage((Button)controls[0]);
+
+                        gameCharacter.Image = Image.FromFile(Path.Combine(Directory.GetCurrentDirectory(), _gameConfig.TeamsIcons.Where(x=> x.TeamId == team.Id).First().IconPath));
+                        ((Button)controls[0]).Image = gameCharacter.Image;
                         gameTeam.Characters.Add(gameCharacter);
                     }
                 }
@@ -85,14 +93,10 @@ namespace YeRoBattle.BattleField.Engine
             var button = (Button)sender;
             activeCharacter.Position.X = Convert.ToInt32(button.Name.Split(",")[0]);
             activeCharacter.Position.Y = Convert.ToInt32(button.Name.Split(",")[1]);
-            SetImage(button);
+            
+            button.Image = activeCharacter.Image;
 
             _gameCondition.ActiveTeamId = _gameCondition.Teams.Where(x => x.Id != _gameCondition.ActiveTeamId).First().Id;
-        }
-
-        private void SetImage(Button button) 
-        {
-            button.Image = Image.FromFile(Path.Combine(Directory.GetCurrentDirectory(), "Icons\\hero_2.png"));
         }
 
         private void RemoveImage(Button button)
