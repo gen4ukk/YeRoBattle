@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YeRoBattle.Engine.Models;
+﻿using YeRoBattle.Engine.Models;
 using YeRoBattle.Logger;
 
 namespace YeRoBattle.Engine
@@ -19,7 +14,8 @@ namespace YeRoBattle.Engine
 
         public void Hit(Character attacker, Character defender)
         {
-            var damage = attacker.Damage - defender.Armor;
+            var damage = CalculateDamage(attacker);
+            damage = damage - defender.Armor;
 
             if (damage > 0)
             {
@@ -32,6 +28,7 @@ namespace YeRoBattle.Engine
                 defender.IsDead = true;
             }
         }
+
         public void Healing(Character character, Character target)
         {
             var heal = character.HealPower;
@@ -44,6 +41,21 @@ namespace YeRoBattle.Engine
                 target.CurrentHealth = target.Health;
             }
 
+        }
+
+        private int CalculateDamage(Character attacker)
+        {
+            var damage = attacker.Damage;
+            var random = new Random().Next(100);
+
+            if (random <= attacker.CriticalChance)
+            {
+                damage = damage * 2;
+                _logger.WriteLine(@$"Attacker {attacker.Name} will hit CRITICALLY ");
+            }
+
+            return damage;
+ 
         }
     }
 }
