@@ -14,6 +14,7 @@ Character character1 = new Character
     CurrentHealth = 100,
     Armor = 4,
     Damage = 10,
+    HealPower = 10,
     CriticalChance = 10,
 };
 
@@ -24,6 +25,7 @@ Character character2 = new Character
     CurrentHealth = 100,
     Armor = 2,
     Damage = 12,
+    HealPower = 10,
     CriticalChance= 60,
 };
 
@@ -41,6 +43,7 @@ while (!character1.IsDead && !character2.IsDead)
     round++;
 
     battleCalculator.Hit(attacker, defender);
+    battleCalculator.Healing(attacker, defender);
 
     var switcher = attacker;
     attacker = defender;

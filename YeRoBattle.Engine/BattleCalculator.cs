@@ -12,7 +12,7 @@ namespace YeRoBattle.Engine
 
         private ILogger _logger;
 
-        public void Hit(Character attacker, Character defender) 
+        public void Hit(Character attacker, Character defender)
         {
             var damage = CalculateDamage(attacker);
             damage = damage - defender.Armor;
@@ -29,6 +29,20 @@ namespace YeRoBattle.Engine
             }
         }
 
+        public void Healing(Character character, Character target)
+        {
+            var heal = character.HealPower;
+
+            _logger.WriteLine($@"character {character.Name} has healed {target.Name} by {heal}");
+            target.CurrentHealth = target.CurrentHealth + heal;
+
+            if (target.CurrentHealth > target.Health)
+            {
+                target.CurrentHealth = target.Health;
+            }
+
+        }
+
         private int CalculateDamage(Character attacker)
         {
             var damage = attacker.Damage;
@@ -41,6 +55,7 @@ namespace YeRoBattle.Engine
             }
 
             return damage;
+ 
         }
     }
 }
