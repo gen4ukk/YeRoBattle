@@ -14,6 +14,7 @@ Character character1 = new Character
     CurrentHealth = 100,
     Armor = 4,
     Damage = 10,
+    CriticalChance = 10,
 };
 
 Character character2 = new Character
@@ -23,6 +24,7 @@ Character character2 = new Character
     CurrentHealth = 100,
     Armor = 2,
     Damage = 12,
+    CriticalChance= 60,
 };
 
 var battleCalculator = new BattleCalculator(logger);
