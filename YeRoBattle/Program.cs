@@ -41,6 +41,7 @@ while (!character1.IsDead && !character2.IsDead)
     round++;
 
     battleCalculator.Hit(attacker, defender);
+    battleCalculator.Healing(attacker, defender);
 
     var switcher = attacker;
     attacker = defender;

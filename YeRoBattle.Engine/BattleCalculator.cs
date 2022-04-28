@@ -17,7 +17,7 @@ namespace YeRoBattle.Engine
 
         private ILogger _logger;
 
-        public void Hit(Character attacker, Character defender) 
+        public void Hit(Character attacker, Character defender)
         {
             var damage = attacker.Damage - defender.Armor;
 
@@ -35,42 +35,14 @@ namespace YeRoBattle.Engine
         public void Healing(Character character, Character target)
         {
             var heal = character.HealPower;
-            
-            if (heal > 0) // heal character 
-            {
-                _logger.WriteLine($@"character {character.Name} has healed {character.Name} by {heal}");
-                character.Health = character.Health + heal;
-            }
-            if (character.CurrentHealth == character.Health)
-            {
-                _logger.WriteLine($@"character {character.Name} has healed {character.Name} by {heal}");
-                character.HealPower = 0;
-            }
-            else
-            {
-                _logger.WriteLine($@"character {character.Name} has healed {character.Name} by {heal}");
-                character.Health = character.Health + heal;
-            }
-            
 
-            if (heal > 0) //heal target
-            {
-                _logger.WriteLine($@"character {character.Name} has healed {target.Name} by {heal}");
-                target.CurrentHealth = target.CurrentHealth + heal;
-            }
-            if (target.CurrentHealth == target.Health)
-            {
-                _logger.WriteLine($@"character {character.Name} has healed {target.Name} by {heal}");
-                character.HealPower = 0; 
-                target.HealPower = 0;
-            }
-            else
-            {
-                _logger.WriteLine($@"character {character.Name} has healed {target.Name} by {heal}");
-                target.Health = target.Health + heal;
-            }
+            _logger.WriteLine($@"character {character.Name} has healed {target.Name} by {heal}");
+            target.CurrentHealth = target.CurrentHealth + heal;
 
-
+            if (target.CurrentHealth > target.Health)
+            {
+                target.CurrentHealth = target.Health;
+            }
 
         }
     }
