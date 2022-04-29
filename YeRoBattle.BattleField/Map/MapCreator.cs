@@ -66,6 +66,8 @@ namespace YeRoBattle.BattleField.Engine
                             Health = team.Characters[i].Health,
                             CurrentHealth = team.Characters[i].CurrentHealth,
                             IsDead = team.Characters[i].IsDead,
+                            HealPower = team.Characters[i].HealPower,
+                          
                         };
                         var teamPosition = gameDetails.Map.TeamsPositons.Where(x => x.TeamId == team.Id).First();
                         gameCharacter.Position = teamPosition.Positions[i];
