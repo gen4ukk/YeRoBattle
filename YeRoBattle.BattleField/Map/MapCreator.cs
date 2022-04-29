@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YeRoBattle.Engine.Models;
+﻿using YeRoBattle.Engine.Models;
 using YeRoBattle.BattleField.Models;
-using System.Text.Json;
-using System.Reflection;
+using Microsoft.Extensions.Configuration;
 
 namespace YeRoBattle.BattleField.Engine
 {
@@ -21,8 +15,10 @@ namespace YeRoBattle.BattleField.Engine
             _userControl = userControl;
             _gameCondition = new GameCondition(gameDetails);
 
-            string path = Path.Combine(Directory.GetCurrentDirectory(), @"appsettings.json");
-            _gameConfig = JsonSerializer.Deserialize<GameConfig>(File.ReadAllText(path))!;
+            if (_gameConfig == null)
+            {
+                _gameConfig = Program.Configuration.GetSection("GameConfig").Get<GameConfig>();
+            }    
 
             try
             {
@@ -47,7 +43,6 @@ namespace YeRoBattle.BattleField.Engine
                         userControl.Controls.Add(button);
                     }
                 }
-
 
                 //create characters
                 foreach (var team in gameDetails.Teams)
