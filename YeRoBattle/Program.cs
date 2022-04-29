@@ -14,8 +14,9 @@ Character character1 = new Character
     CurrentHealth = 100,
     Armor = 4,
     Damage = 10,
-    HealPower = 10,
+    HealPower = 2,
     CriticalChance = 10,
+    HealthBuff = 15,
 };
 
 Character character2 = new Character
@@ -25,26 +26,30 @@ Character character2 = new Character
     CurrentHealth = 100,
     Armor = 2,
     Damage = 12,
-    HealPower = 10,
-    CriticalChance= 60,
+    HealPower = 2,
+    CriticalChance = 60,
+    HealthBuff = 15,
 };
 
 var battleCalculator = new BattleCalculator(logger);
+
 
 logger.WriteLine(@$"Battle: {character1.Name} VS {character2.Name}");
 
 var attacker = character1;
 var defender = character2;
 var round = 1;
+battleCalculator._HealththBuff(attacker);
+battleCalculator._HealththBuff(defender);
 
 while (!character1.IsDead && !character2.IsDead)
 {
     logger.WriteLine(@$"Round {round} Attacker {attacker.Name} {attacker.CurrentHealth} Defender {defender.Name} {defender.CurrentHealth}");
     round++;
-
+   
     battleCalculator.Hit(attacker, defender);
-    battleCalculator.Healing(attacker, defender);
-
+    battleCalculator.Healing(attacker, attacker); // (second attacker is the healing target)
+    
     var switcher = attacker;
     attacker = defender;
     defender = switcher;

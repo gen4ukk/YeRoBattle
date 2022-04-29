@@ -31,10 +31,8 @@ namespace YeRoBattle.Engine
 
         public void Healing(Character character, Character target)
         {
-            var heal = character.HealPower;
-
-            _logger.WriteLine($@"character {character.Name} has healed {target.Name} by {heal}");
-            target.CurrentHealth = target.CurrentHealth + heal;
+            target.CurrentHealth = target.CurrentHealth + character.HealPower;
+            _logger.WriteLine($@"character {character.Name} has healed {target.Name} by {character.HealPower}");
 
             if (target.CurrentHealth > target.Health)
             {
@@ -55,7 +53,16 @@ namespace YeRoBattle.Engine
             }
 
             return damage;
- 
+
+        }
+
+        public int _HealththBuff(Character target)
+        {
+            var healthbuff = target.HealthBuff;
+            target.Health = target.Health + healthbuff;
+            target.CurrentHealth = target.Health;
+            _logger.WriteLine(@$"Attacker {target.Name} got Buff : + 10 to his maximum HP and his current health now is {target.CurrentHealth} ");
+            return healthbuff;
         }
     }
 }
