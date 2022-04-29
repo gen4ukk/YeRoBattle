@@ -3,6 +3,7 @@ using YeRoBattle.BattleField.Models;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 
 namespace YeRoBattle.BattleField.Engine
 {
@@ -46,8 +47,21 @@ namespace YeRoBattle.BattleField.Engine
         private void CalculatePossibleSteps(UserControl userControl, GameCharacter character)
         {
             var buttons = userControl.Controls.OfType<Button>().ToList();
-
             buttons.ForEach(b => b.Enabled = false);
+
+            var activeButtonsNames = new List<string>();
+
+            for (int i = character.Position.X - character.Step; i <= character.Position.X + character.Step; i++)
+            {
+                for (int j = character.Position.Y - character.Step; j <= character.Position.Y + character.Step; j++)
+                {
+                    activeButtonsNames.Add($@"{i},{j}");
+                    Debug.WriteLine($@"{i},{j}");
+                }
+            }
+
+            var buttonsToEnable = buttons.Where(b => activeButtonsNames.Contains(b.Name)).ToList();
+            buttonsToEnable.ForEach(b => b.Enabled = true);
         }
 
         private void CreateMap(UserControl userControl, GameDetails gameDetails) 
@@ -68,20 +82,10 @@ namespace YeRoBattle.BattleField.Engine
                         ImageAlign = ContentAlignment.MiddleCenter
                     };
                     button.Click += button1_Click;
-                    button.EnabledChanged += Button_EnabledChanged;
                     SetTexture(button);
 
                     userControl.Controls.Add(button);
                 }
-            }
-        }
-
-        private void Button_EnabledChanged(object sender, EventArgs e)
-        {
-            Button button = (Button)sender;
-            if (!button.Enabled)
-            {
-
             }
         }
 
@@ -112,6 +116,7 @@ namespace YeRoBattle.BattleField.Engine
                         CurrentHealth = team.Characters[i].CurrentHealth,
                         IsDead = team.Characters[i].IsDead,
                         HealPower = team.Characters[i].HealPower,
+                        Step = team.Characters[i].Step,
 
                     };
                     var teamPosition = gameDetails.Map.TeamsPositons.Where(x => x.TeamId == team.Id).First();
