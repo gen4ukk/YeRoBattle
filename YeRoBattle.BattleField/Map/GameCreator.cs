@@ -1,6 +1,8 @@
 ﻿using YeRoBattle.Engine.Models;
 using YeRoBattle.BattleField.Models;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace YeRoBattle.BattleField.Engine
 {
@@ -35,6 +37,17 @@ namespace YeRoBattle.BattleField.Engine
             SetNewPosition((Button)sender, activeCharacter);
 
             _gameCondition.ActiveTeamId = _gameCondition.Teams.Where(x => x.Id != _gameCondition.ActiveTeamId).First().Id;
+
+            activeCharacter = _gameCondition.Teams.Where(x => x.Id == _gameCondition.ActiveTeamId).First().Characters.First();
+
+            CalculatePossibleSteps(_userControl, activeCharacter);
+        }
+
+        private void CalculatePossibleSteps(UserControl userControl, GameCharacter character)
+        {
+            var buttons = userControl.Controls.OfType<Button>().ToList();
+
+            buttons.ForEach(b => b.Enabled = false);
         }
 
         private void CreateMap(UserControl userControl, GameDetails gameDetails) 
@@ -55,10 +68,20 @@ namespace YeRoBattle.BattleField.Engine
                         ImageAlign = ContentAlignment.MiddleCenter
                     };
                     button.Click += button1_Click;
+                    button.EnabledChanged += Button_EnabledChanged;
                     SetTexture(button);
 
                     userControl.Controls.Add(button);
                 }
+            }
+        }
+
+        private void Button_EnabledChanged(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+            if (!button.Enabled)
+            {
+
             }
         }
 
