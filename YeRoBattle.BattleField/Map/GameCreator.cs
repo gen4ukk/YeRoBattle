@@ -1,6 +1,8 @@
 ﻿using YeRoBattle.Engine.Models;
 using YeRoBattle.BattleField.Models;
 using Microsoft.Extensions.Configuration;
+using YeRoBattle.Engine;
+using YeRoBattle.Logger;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
@@ -12,6 +14,7 @@ namespace YeRoBattle.BattleField.Engine
         private UserControl _userControl;
         private GameCondition _gameCondition;
         private GameConfig _gameConfig;
+        private BattleCalculator _battleCalculator;
 
         public bool Create(UserControl userControl, GameDetails gameDetails) 
         {
@@ -19,6 +22,8 @@ namespace YeRoBattle.BattleField.Engine
 
             try
             {
+                _battleCalculator = new BattleCalculator(new DebugLogger());
+
                 CreateMap(userControl, gameDetails);
 
                 _gameCondition = SetupCharacters(gameDetails);
@@ -34,8 +39,29 @@ namespace YeRoBattle.BattleField.Engine
         {
             var activeCharacter = _gameCondition.Teams.Where(x => x.Id == _gameCondition.ActiveTeamId).First().Characters.First();
 
-            ClearOldPosition(_userControl, activeCharacter);
-            SetNewPosition((Button)sender, activeCharacter);
+            var button = (Button)sender;
+
+            if (button.Image != null)
+            {
+                Character character = null;
+
+                foreach (var team in _gameCondition.Teams)
+                {
+                    character = team.Characters.Where(c => c.Button == button).FirstOrDefault();
+
+                    if (character!=null)
+                    {
+                        break;
+                    }
+                }
+
+                _battleCalculator.Hit(activeCharacter, character);
+            }
+            else
+            {
+                ClearOldPosition(_userControl, activeCharacter);
+                SetNewPosition(button, activeCharacter);
+            }
 
             _gameCondition.ActiveTeamId = _gameCondition.Teams.Where(x => x.Id != _gameCondition.ActiveTeamId).First().Id;
 
@@ -47,7 +73,7 @@ namespace YeRoBattle.BattleField.Engine
         private void CalculatePossibleSteps(UserControl userControl, GameCharacter character)
         {
             var buttons = userControl.Controls.OfType<Button>().ToList();
-            buttons.ForEach(b => b.Enabled = false);
+            buttons.ForEach(b => { b.Enabled = false; SetTexture(b); });
 
             var activeButtonsNames = new List<string>();
 
@@ -56,12 +82,11 @@ namespace YeRoBattle.BattleField.Engine
                 for (int j = character.Position.Y - character.Step; j <= character.Position.Y + character.Step; j++)
                 {
                     activeButtonsNames.Add($@"{i},{j}");
-                    Debug.WriteLine($@"{i},{j}");
                 }
             }
 
             var buttonsToEnable = buttons.Where(b => activeButtonsNames.Contains(b.Name)).ToList();
-            buttonsToEnable.ForEach(b => b.Enabled = true);
+            buttonsToEnable.ForEach(b => { b.Enabled = true; RemoveTexture(b); });
         }
 
         private void CreateMap(UserControl userControl, GameDetails gameDetails) 
@@ -129,6 +154,10 @@ namespace YeRoBattle.BattleField.Engine
                 }
             }
 
+            var activeCharacter = gameCondition.Teams.Where(x => x.Id == gameCondition.ActiveTeamId).First().Characters.First();
+
+            CalculatePossibleSteps(_userControl, activeCharacter);
+
             return gameCondition;
         }
 
@@ -154,6 +183,11 @@ namespace YeRoBattle.BattleField.Engine
         private void SetTexture(Button button)
         {
             button.BackgroundImage = Image.FromFile(Path.Combine(Directory.GetCurrentDirectory(), "Icons\\texture.png"));
+        }        
+        
+        private void RemoveTexture(Button button)
+        {
+            button.BackgroundImage = null;
         }
     }
 }

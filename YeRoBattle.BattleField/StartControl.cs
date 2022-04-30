@@ -25,14 +25,32 @@ namespace YeRoBattle.BattleField
             var map = new Map() { Height = 5, Width = 7 };
             var team1 = new Team();
             team1.Id = 1;
-            team1.Characters.Add(new Character() { Step = 1});
+            team1.Characters.Add(new Character() 
+            { 
+                Step = 1,
+                Name = "Roman",
+                Armor = 1,
+                CriticalChance = 1,
+                CurrentHealth = 100,
+                Health = 100,
+                Damage = 10,
+            });
             var teamsPosition1 = new TeamsPositons();
             teamsPosition1.TeamId = team1.Id;
             teamsPosition1.Positions.Add(new Position(0, 0));
 
             var team2 = new Team();
             team2.Id = 2;
-            team2.Characters.Add(new Character() { Step = 2 });
+            team2.Characters.Add(new Character()
+            {
+                Step = 2,
+                Name = "Yevhen",
+                Armor = 1,
+                CriticalChance = 15,
+                CurrentHealth = 100,
+                Health = 100,
+                Damage = 20,
+            });
             var teamsPosition2 = new TeamsPositons();
             teamsPosition2.TeamId = team2.Id;
             teamsPosition2.Positions.Add(new Position(0, 6));
