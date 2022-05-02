@@ -16,5 +16,6 @@ namespace YeRoBattle.Engine.Models
         public int CriticalChance { get; set; }
         public bool IsDead { get; set; }
         public int HealPower { get; set; }
+        public int Step { get; set; }
     }
 }

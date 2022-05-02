@@ -32,7 +32,7 @@ namespace YeRoBattle.BattleField
 
         private void BuildMap(GameDetails gameDetails) 
         {
-            new MapCreator().Create(this, gameDetails);
+            new GameCreator().Create(this, gameDetails);
         } 
 
         #region Component Designer generated code

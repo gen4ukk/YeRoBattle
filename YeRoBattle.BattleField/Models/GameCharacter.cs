@@ -12,5 +12,7 @@ namespace YeRoBattle.BattleField.Models
         public Button Button { get; set; }
 
         public Position Position { get; set; } = new Position(0, 0);
+
+        public Image Image { get; set; }
     }
 }
