@@ -56,13 +56,18 @@ namespace YeRoBattle.Engine
 
         }
 
-        public int _HealththBuff(Character target)
+       /*/ Not sure, that adding method for every buff right decision.
+             Lets assume we have 100 different kinds of buffs =>
+            we should have 100 properties and 100 methods and call them 1 by 1 to make it work properly.
+            Also, we should think about adding names for every buff and might be a picture.
+            Try to find another way to implement buff feature. => 
+           Buff should have his own class with properties like name, side effect, iconpath, etc. Use array to store buffs. */
+
+        public void PrepareForBattle(Character character)
         {
-            var healthbuff = target.HealthBuff;
-            target.Health = target.Health + healthbuff;
-            target.CurrentHealth = target.Health;
-            _logger.WriteLine(@$"Attacker {target.Name} got Buff : + 10 to his maximum HP and his current health now is {target.CurrentHealth} ");
-            return healthbuff;
+       character.
         }
+        
     }
+    
 }
