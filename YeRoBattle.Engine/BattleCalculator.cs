@@ -51,13 +51,14 @@ namespace YeRoBattle.Engine
                 damage = damage * 2;
                 _logger.WriteLine(@$"Attacker {attacker.Name} will hit CRITICALLY ");
             }
-
             return damage;
 
         }
-
-      
-        
+        public void StartGameBuffs(Character character)
+        {
+            
+            //idk what logic should be here ...(character = character + character.Buff;)  ???
+        }
     }
-    
+
 }
