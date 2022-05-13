@@ -31,10 +31,8 @@ namespace YeRoBattle.Engine
 
         public void Healing(Character character, Character target)
         {
-            var heal = character.HealPower;
-
-            _logger.WriteLine($@"character {character.Name} has healed {target.Name} by {heal}");
-            target.CurrentHealth = target.CurrentHealth + heal;
+            target.CurrentHealth = target.CurrentHealth + character.HealPower;
+            _logger.WriteLine($@"character {character.Name} has healed {target.Name} by {character.HealPower}");
 
             if (target.CurrentHealth > target.Health)
             {
@@ -53,9 +51,14 @@ namespace YeRoBattle.Engine
                 damage = damage * 2;
                 _logger.WriteLine(@$"Attacker {attacker.Name} will hit CRITICALLY ");
             }
-
             return damage;
- 
+
+        }
+        public void StartGameBuffs(Character character)
+        {
+            
+            //idk what logic should be here ...(character = character + character.Buff;)  ???
         }
     }
+
 }
