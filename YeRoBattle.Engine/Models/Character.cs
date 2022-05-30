@@ -16,8 +16,10 @@ namespace YeRoBattle.Engine.Models
         public int CriticalChance { get; set; }
         public bool IsDead { get; set; }
         public int HealPower { get; set; }
-        public List<Buff> Buffs { get; set; } = new List<Buff>();
-        
+        public List<BUFF> Buffs { get; set; } = new List<BUFF>();
+       
+
+
     }
 
 }

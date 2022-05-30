@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace YeRoBattle.Engine.Models
 {
-    
-    public class Buff
-    { 
-        public int Healthbuff { get; set ; }
-        public int Damagebuff { get; set; }
-        public int Armorbuff { get; set; }
-        public int CriticalChancebuff { get; set; }
-        public int HealPowerbuff { get; set; }
-       
-}    }
+
+    public class BUFF
+
+    {
+        public string Name { get; set; }
+        public string AffectedTo { get; set; }
+        public int Value { get; set; }
+    }
+}
