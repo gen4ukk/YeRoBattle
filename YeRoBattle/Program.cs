@@ -60,7 +60,7 @@ Character character2 = new Character
     Health = 100,
     CurrentHealth = 100,
     Armor = 2,
-    Damage = 12,
+    Damage = 10,
     HealPower = 2,
     CriticalChance = 60,
 

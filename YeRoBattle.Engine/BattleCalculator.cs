@@ -43,8 +43,11 @@ namespace YeRoBattle.Engine
 
         private int CalculateDamage(Character attacker)
         {
-            var damage = attacker.Damage;
+           
             var random = new Random().Next(100);
+          var randomdamage = new Random().Next(1,11);
+            var damage = randomdamage;
+            attacker.Damage = damage;
 
             if (random <= attacker.CriticalChance)
             {
