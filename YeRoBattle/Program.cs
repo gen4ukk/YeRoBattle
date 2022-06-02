@@ -13,6 +13,7 @@ Character character1 = new Character
     Health = 100,                   //character1.Health = 100;
     CurrentHealth = 100,
     Armor = 4,
+    MinDamage = 5,
     Damage = 10,
     HealPower = 2,
     CriticalChance = 10,
@@ -32,7 +33,7 @@ c1bUFF3.Name = "Armorbuff";
 c1bUFF4.Name = "Healbuff";
 c1bUFF4.Name = "Critbuff";
     
-c1bUFF1.Value = 2;
+c1bUFF1.Value = 200;
 c1bUFF2.Value = 2;
 c1bUFF3.Value = 2;
 c1bUFF4.Value = 2;
@@ -60,6 +61,7 @@ Character character2 = new Character
     Health = 100,
     CurrentHealth = 100,
     Armor = 2,
+    MinDamage = 5,
     Damage = 10,
     HealPower = 2,
     CriticalChance = 60,
@@ -79,7 +81,7 @@ c2bUFF3.Name = "Armorbuff";
 c2bUFF4.Name = "Healbuff";
 c2bUFF4.Name = "Critbuff";
 
-c2bUFF1.Value = 2;
+c2bUFF1.Value = 200;
 c2bUFF2.Value = 2;
 c2bUFF3.Value = 2;
 c2bUFF4.Value = 2;
@@ -114,15 +116,18 @@ battleCalculator.ApplyBuffs(character1);
 battleCalculator.ApplyBuffs(character2);
 
 
+
 while (!character1.IsDead && !character2.IsDead)
-{
+{   Console.ForegroundColor = ConsoleColor.Red; 
     logger.WriteLine(@$"Round {round} Attacker {attacker.Name} {attacker.CurrentHealth} Defender {defender.Name} {defender.CurrentHealth}");
     round++;
+    Console.ResetColor();
 
+   
     battleCalculator.Hit(attacker, defender);
-    battleCalculator.Healing(attacker, attacker); // (second attacker is the target to heal)
+   // battleCalculator.Healing(attacker, attacker); // (second attacker is the target to heal)
+   
 
-    
     var switcher = attacker;
     attacker = defender;
     defender = switcher;

@@ -13,7 +13,7 @@ namespace YeRoBattle.Engine
         private ILogger _logger;
 
         public void Hit(Character attacker, Character defender)
-        {
+        {  
             var damage = CalculateDamage(attacker);
             damage = damage - defender.Armor;
 
@@ -34,25 +34,27 @@ namespace YeRoBattle.Engine
             target.CurrentHealth = target.CurrentHealth + character.HealPower;
             _logger.WriteLine($@"character {character.Name} has healed {target.Name} by {character.HealPower}");
 
-            if (target.CurrentHealth > target.Health)
-            {
-                target.CurrentHealth = target.Health;
-            }
+            //if (target.CurrentHealth > target.Health)
+            //{
+            //    target.CurrentHealth = target.Health;
+            //}
 
         }
 
         private int CalculateDamage(Character attacker)
         {
            
-            var random = new Random().Next(100);
-          var randomdamage = new Random().Next(1,11);
+            
+          var randomdamage = new Random().Next(attacker.MinDamage,attacker.Damage);
             var damage = randomdamage;
             attacker.Damage = damage;
 
-            if (random <= attacker.CriticalChance)
+            if (randomdamage <= attacker.CriticalChance)
             {
                 damage = damage * 2;
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 _logger.WriteLine(@$"Attacker {attacker.Name} will hit CRITICALLY ");
+                Console.ResetColor();
             }
             return damage;
 
@@ -108,7 +110,7 @@ namespace YeRoBattle.Engine
                 character.GetType().GetProperty(element.AffectedTo).SetValue(character, element.Value + Value);
 
             }
-            _logger.WriteLine(character.Armor + " " + character.Damage + " " + character.Armor + " " + character.Health);
+           // _logger.WriteLine(character.Armor + " " + character.Damage + " " + character.Armor + " " + character.Health);
 
         }
 

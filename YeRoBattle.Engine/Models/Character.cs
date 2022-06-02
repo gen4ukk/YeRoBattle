@@ -12,6 +12,7 @@ namespace YeRoBattle.Engine.Models
         public int Health { get; set; }
         public int CurrentHealth { get; set; }
         public int Armor { get; set; }
+        public int MinDamage { get; set; }
         public int Damage { get; set; }
         public int CriticalChance { get; set; }
         public bool IsDead { get; set; }
