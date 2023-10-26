@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\YeRoBattle.Engine\Models\Position.cs" Link="Position.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\YeRoBattle.Engine\YeRoBattle.Engine.csproj" />
     <ProjectReference Include="..\YeRoBattle.Logger\YeRoBattle.Logger.csproj" />
   </ItemGroup>

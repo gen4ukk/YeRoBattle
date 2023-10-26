@@ -13,7 +13,7 @@ namespace YeRoBattle.Engine
         private ILogger _logger;
 
         public void Hit(Character attacker, Character defender)
-        {
+        {  
             var damage = CalculateDamage(attacker);
             damage = damage - defender.Armor;
 
@@ -31,31 +31,93 @@ namespace YeRoBattle.Engine
 
         public void Healing(Character character, Character target)
         {
-            var heal = character.HealPower;
+            target.CurrentHealth = target.CurrentHealth + character.HealPower;
+            _logger.WriteLine($@"character {character.Name} has healed {target.Name} by {character.HealPower}");
 
-            _logger.WriteLine($@"character {character.Name} has healed {target.Name} by {heal}");
-            target.CurrentHealth = target.CurrentHealth + heal;
-
-            if (target.CurrentHealth > target.Health)
-            {
-                target.CurrentHealth = target.Health;
-            }
+            //if (target.CurrentHealth > target.Health)
+            //{
+            //    target.CurrentHealth = target.Health;
+            //}
 
         }
 
         private int CalculateDamage(Character attacker)
         {
-            var damage = attacker.Damage;
-            var random = new Random().Next(100);
+           
+            
+          var randomdamage = new Random().Next(attacker.MinDamage,attacker.Damage);
+            var damage = randomdamage;
+            attacker.Damage = damage;
 
-            if (random <= attacker.CriticalChance)
+            if (randomdamage <= attacker.CriticalChance)
             {
                 damage = damage * 2;
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 _logger.WriteLine(@$"Attacker {attacker.Name} will hit CRITICALLY ");
+                Console.ResetColor();
+            }
+            return damage;
+
+        }
+
+
+        public void GetBuffs(Character character)
+        {
+            _logger.WriteLine($"{character.Name} Choose your Buff");
+            _logger.WriteLine("1 - HealthBuff, 2 - DamageBuff, 3 - Armorbuff, 4 - Critbuff");
+
+            string choise = Console.ReadLine();
+            switch (choise)
+
+            {
+                case "1":
+                    {
+                        _logger.WriteLine($"HealthBuff - {character.Buffs[0].Name} ");
+                        break;
+                    }
+                case "2":
+                    {
+                        _logger.WriteLine($"DamageBuff - {character.Buffs[1].Name} ");
+                        break;
+                    }
+                case "3":
+                    {
+                        _logger.WriteLine($"Armorbuff - {character.Buffs[2].Name} ");
+                        break;
+                    }
+                case "4":
+                    {
+                        _logger.WriteLine($"HealBuff - {character.Buffs[3].Name} ");
+                        break;
+                    }
+
             }
 
-            return damage;
- 
+
         }
+
+        public  void ApplyBuffs(Character character)
+        {
+
+
+            var characterType = typeof(Character);
+            //_logger.WriteLine(character.Armor + " " + character.Damage + " " + character.Armor + " " + character.Health);
+            foreach (BUFF element in character.Buffs)
+            {
+
+                var Value = (int)character.GetType().GetProperty(element.AffectedTo).GetValue(character, null);
+
+                character.GetType().GetProperty(element.AffectedTo).SetValue(character, element.Value + Value);
+
+            }
+           // _logger.WriteLine(character.Armor + " " + character.Damage + " " + character.Armor + " " + character.Health);
+
+        }
+
+        
+
+
     }
-}
+    }
+
+
